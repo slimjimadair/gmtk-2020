@@ -59,7 +59,7 @@ public class AbilityUI : MonoBehaviour
         // Update Counts
         for (int i = 0; i < uiLabels.Length; i++)
         {
-            var curAbility = uiAbilityPrefab.transform.GetChild(i);
+            var curAbility = uiAbilityBlock.transform.GetChild(i);
 
             // Set Current Count
             GameObject curAbilityCount = curAbility.GetChild(2).gameObject;
@@ -67,8 +67,11 @@ public class AbilityUI : MonoBehaviour
             txt.text = uiCounts[i].ToString();
 
             // Set Inactive if needed
-            GameObject curAbilityHider = curAbility.GetChild(3).gameObject;
-            curAbilityHider.SetActive(true);
+            if (uiCounts[i] < 1)
+            {
+                GameObject curAbilityHider = curAbility.GetChild(3).gameObject;
+                curAbilityHider.SetActive(true);
+            }
         }
     }
 }
