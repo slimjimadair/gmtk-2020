@@ -35,6 +35,11 @@ public class PlayerController : MonoBehaviour
     // Contexts
     bool isGrounded;
 
+    // Ability Limits
+    int sprintCount = 2;
+    int jumpCount = 2;
+    int airJumpCount = 2;
+    int dashCount = 2;
 
     private void Start()
     {
@@ -67,7 +72,10 @@ public class PlayerController : MonoBehaviour
             fixedSpaceInput = true;
             spaceInput = false;
         }
-        fixedShiftInput = shiftInput;
+        if (fixedShiftInput && !shiftInput) {
+            sprintCount -= 1;
+        }
+        fixedShiftInput = (sprintCount > 0) ? shiftInput : false;
 
         // Get Context
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
@@ -75,34 +83,36 @@ public class PlayerController : MonoBehaviour
         // Set Base Velocity
         float hVel = fixedSideInput * runSpeed;
         float vVel = rb.velocity.y;
-        Debug.Log(hVel);
 
         // ABILITIES
         // Sprint - apply a speed multiplier
-        if (shiftInput)
+        if (fixedShiftInput)
         {
             hVel *= sprintMultiplier;
         }
 
+        Debug.Log(isGrounded);
         // Jump - add vertical velocity if on ground
-        if (fixedUpInput && isGrounded)
+        if (fixedUpInput && isGrounded && jumpCount > 0)
         {
             vVel = jumpForce;
-            fixedUpInput = false;
+            jumpCount -= 1;
         }
 
         // Air Jump - add vertical velocity if in air
-        if (fixedUpInput && !isGrounded)
+        if (fixedUpInput && !isGrounded && airJumpCount > 0)
         {
             vVel = jumpForce;
-            fixedUpInput = false;
+            airJumpCount -= 1;
         }
+        fixedUpInput = false;
 
         // Dash - teleport in movement direction
-        if (fixedSpaceInput)
+        if (fixedSpaceInput && dashCount > 0)
         {
             rb.MovePosition(new Vector2(rb.position.x + (fixedSideInput * dashDistance), rb.position.y));
             fixedSpaceInput = false;
+            dashCount -= 1;
         }
 
         // Update Velocity
