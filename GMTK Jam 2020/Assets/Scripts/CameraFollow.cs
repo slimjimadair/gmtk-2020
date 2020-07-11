@@ -6,7 +6,7 @@ public class CameraFollow : MonoBehaviour
 {
     Transform playerTransform;
     float cameraBoundX = 10f;
-    float cameraBoundY = 10f;
+    float cameraBoundY = 7f;
 
     void Start()
     {

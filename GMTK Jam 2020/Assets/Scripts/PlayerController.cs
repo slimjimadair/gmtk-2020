@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public float groundCheckRadius;
     public LayerMask whatIsGround;
 
+    public GameObject abilityUI;
+
     float deathFloor = -20f;
 
     // Input Trackers
@@ -36,10 +38,10 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
 
     // Ability Limits
-    int sprintCount = 2;
-    int jumpCount = 2;
-    int airJumpCount = 2;
-    int dashCount = 2;
+    int sprintCount = 100;
+    int jumpCount = 100;
+    int airJumpCount = 100;
+    int dashCount = 100;
 
     private void Start()
     {
@@ -91,7 +93,6 @@ public class PlayerController : MonoBehaviour
             hVel *= sprintMultiplier;
         }
 
-        Debug.Log(isGrounded);
         // Jump - add vertical velocity if on ground
         if (fixedUpInput && isGrounded && jumpCount > 0)
         {
@@ -117,5 +118,9 @@ public class PlayerController : MonoBehaviour
 
         // Update Velocity
         rb.velocity = new Vector2(hVel, vVel);
+
+        // Update UI
+        int[] uiCounts = new int[] { jumpCount, airJumpCount, sprintCount, dashCount };
+        abilityUI.GetComponent<AbilityUI>().UpdateUI(uiCounts);
     }
 }
