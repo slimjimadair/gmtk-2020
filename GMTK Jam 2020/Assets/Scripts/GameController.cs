@@ -35,10 +35,25 @@ public class GameController : MonoBehaviour
         uiComments = new string[4][];
         uiComments[0] = new string[] { // Jump Comments
             "HOW IS A JUMP IN A BOX?",
+            "WHY DO I KEEP FORGETTING HOW TO DO THIS?",
+            "LIKE THIS ARMOUR WEIGHS NOTHING AT ALL... NOTHING AT ALL...",
         };
-        uiComments[1] = new string[] { }; // Air Jump Comments
-        uiComments[2] = new string[] { }; // Air Jump Comments
-        uiComments[3] = new string[] { }; // Air Jump Comments
+        uiComments[1] = new string[] { // Air Jump Comments
+            "SEEMS LEGIT",
+            "BEST NOT TO WORRY ABOUT THE PHYSICS OF THAT",
+            "DO A BARREL ROLL",
+            "HIGHER AND HIGHER",
+        };
+        uiComments[2] = new string[] { // Sprint Comments
+            "LIKE RUNNING... BUT FASTER",
+            "RUN FAST, JUMP FAR",
+            "YOU COULD HURT SOMEONE RUNNING LIKE THAT",
+        };
+        uiComments[3] = new string[] { // Dash Comments
+            "FASTER THAN THE SPEED OF GRAVITY",
+            "SEEMS DANGEROUS",
+            "I'VE HEARD THERE'S A WIZARD HERE",
+        };
 
         // Get Objects
         player = GameObject.FindGameObjectWithTag("Player");

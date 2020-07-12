@@ -17,7 +17,7 @@ public class GoalController : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             messageUI.SetActive(true);
-            messageUI.GetComponent<MessageUI>().SetMessage("YOU WON!", "LEVEL COMPLETE", "I SUPPOSE THIS GOLD MUST HAVE BEEN WHAT I WAS LOOKING FOR", null);
+            messageUI.GetComponent<MessageUI>().SetMessage("YOU WON!", "LEVEL COMPLETE", "THE PRINCESS MUST BE IN ANOTHER CASTLE", null);
         }
     }
 }
