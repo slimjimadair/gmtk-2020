@@ -24,9 +24,19 @@ public class GameController : MonoBehaviour
         "PRESS SPACE TO DASH FORWARD",
     };
     public Sprite[] uiSpritesLight;
+    string[][] uiComments;
 
     void Start()
     {
+        // Set UI Comments
+        uiComments = new string[4][];
+        uiComments[0] = new string[] { // Jump Comments
+            "HOW IS A JUMP IN A BOX?",
+        };
+        uiComments[1] = new string[] { }; // Air Jump Comments
+        uiComments[2] = new string[] { }; // Air Jump Comments
+        uiComments[3] = new string[] { }; // Air Jump Comments
+
         // Get Objects
         player = GameObject.FindGameObjectWithTag("Player");
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -37,6 +47,11 @@ public class GameController : MonoBehaviour
 
         // Turn on UI
         UIHolder.SetActive(true);
+
+        // Intro screen
+        messageUI.SetActive(true);
+        messageUI.GetComponent<MessageUI>().SetMessage("CONTROLVANIA", "FIND YOUR CONTROLS", "PRESS UP TO JUMP AND COLLECT THE CHESTS", null);
+        Invoke("Restart", 2.0f);
     }
 
     void Update()
@@ -59,7 +74,12 @@ public class GameController : MonoBehaviour
         abilityCounts[abilityID] += 1;
         player.GetComponent<PlayerController>().UpdateAbilities(abilityCounts);
         messageUI.SetActive(true);
-        messageUI.GetComponent<MessageUI>().SetMessage(uiLabels[abilityID], uiInstructions[abilityID], "", uiSpritesLight[abilityID]);
+        string uiComment = "";
+        if (uiComments[abilityID].Length > 0)
+        {
+            uiComment = uiComments[abilityID][Random.Range(0, uiComments[abilityID].Length)];
+        }
+        messageUI.GetComponent<MessageUI>().SetMessage(uiLabels[abilityID], uiInstructions[abilityID], uiComment, uiSpritesLight[abilityID]);
         Invoke("Restart", 1.0f);
     }
 
