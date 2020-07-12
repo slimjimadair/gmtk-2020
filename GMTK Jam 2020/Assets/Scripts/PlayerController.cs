@@ -30,6 +30,9 @@ public class PlayerController : MonoBehaviour
     int stepSoundCount = 0;
     bool stepSound1 = true;
 
+    public GameObject dustLeft;
+    public GameObject dustRight;
+
     Vector3 playerStart;
     float deathFloor = -20f;
 
@@ -167,6 +170,18 @@ public class PlayerController : MonoBehaviour
             stepSound1 = !stepSound1;
         } else {
             stepSoundCount += 1;
+        }
+
+        // Dust Particles
+        if (isGrounded && hVel > 0) {
+            dustRight.SetActive(true);
+            dustLeft.SetActive(false);
+        } else if (isGrounded && hVel < 0) {
+            dustLeft.SetActive(true);
+            dustRight.SetActive(false);
+        } else {
+            dustLeft.SetActive(false);
+            dustRight.SetActive(false);
         }
 
         // Check Death
