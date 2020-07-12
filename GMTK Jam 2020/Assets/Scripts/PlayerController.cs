@@ -22,6 +22,14 @@ public class PlayerController : MonoBehaviour
     public GameObject abilityUI;
     GameObject game;
 
+    public AudioSource footstep1Audio;
+    public AudioSource footstep2Audio;
+    public AudioSource jumpAudio;
+    public AudioSource dashAudio;
+    int stepSoundInterval = 12;
+    int stepSoundCount = 0;
+    bool stepSound1 = true;
+
     Vector3 playerStart;
     float deathFloor = -20f;
 
@@ -109,6 +117,7 @@ public class PlayerController : MonoBehaviour
         {
             vVel = jumpForce;
             jumpCount -= 1;
+            jumpAudio.Play();
         }
 
         // Air Jump - add vertical velocity if in air
@@ -116,6 +125,7 @@ public class PlayerController : MonoBehaviour
         {
             vVel = jumpForce;
             airJumpCount -= 1;
+            jumpAudio.Play();
         }
         fixedUpInput = false;
 
@@ -125,6 +135,7 @@ public class PlayerController : MonoBehaviour
             rb.MovePosition(new Vector2(rb.position.x + (fixedSideInput * dashDistance), rb.position.y));
             fixedSpaceInput = false;
             dashCount -= 1;
+            dashAudio.Play();
         }
 
         // Update Velocity
@@ -142,6 +153,21 @@ public class PlayerController : MonoBehaviour
         // Update UI
         int[] uiCounts = new int[] { jumpCount, airJumpCount, sprintCount, dashCount };
         abilityUI.GetComponent<AbilityUI>().UpdateUI(uiCounts);
+
+        // Footstep Sound
+        if (isGrounded && Mathf.Abs(hVel) > 0 && stepSoundCount >= stepSoundInterval)
+        {
+            stepSoundCount = 0;
+            if (stepSound1)
+            {
+                footstep1Audio.Play();
+            } else {
+                footstep2Audio.Play();
+            }
+            stepSound1 = !stepSound1;
+        } else {
+            stepSoundCount += 1;
+        }
 
         // Check Death
         if (rb.position.y < deathFloor)

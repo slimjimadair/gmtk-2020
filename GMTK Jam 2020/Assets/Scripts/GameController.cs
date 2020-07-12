@@ -11,6 +11,9 @@ public class GameController : MonoBehaviour
     public GameObject messageUI;
     GameObject mainCamera;
 
+    public AudioSource pickupAudio;
+    
+
     // Ability Handling
     int[] abilityCounts;
 
@@ -71,6 +74,8 @@ public class GameController : MonoBehaviour
 
     public void AddAbility(int abilityID)
     {
+        pickupAudio.Play();
+
         abilityCounts[abilityID] += 1;
         player.GetComponent<PlayerController>().UpdateAbilities(abilityCounts);
         messageUI.SetActive(true);
