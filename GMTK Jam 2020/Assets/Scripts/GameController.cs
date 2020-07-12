@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
     // Objects
     GameObject player;
+    public GameObject UIHolder;
     public GameObject abilityUI;
     public GameObject messageUI;
     GameObject mainCamera;
@@ -31,8 +32,11 @@ public class GameController : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 
         // Set starting abilities
-        abilityCounts = new int[] { 2, 2, 2, 2 };
+        abilityCounts = new int[] { 1, 0, 0, 0 };
         player.GetComponent<PlayerController>().UpdateAbilities(abilityCounts);
+
+        // Turn on UI
+        UIHolder.SetActive(true);
     }
 
     void Update()

@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public GameObject abilityUI;
     GameObject game;
 
-    Vector3 playerStart = new Vector3(0f, -2.25f, 0f);
+    Vector3 playerStart;
     float deathFloor = -20f;
 
     // Input Trackers
@@ -53,6 +53,8 @@ public class PlayerController : MonoBehaviour
         // Get Elements
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        playerStart = transform.position;
+
         game = GameObject.FindGameObjectWithTag("GameController");
         Restart();
     }

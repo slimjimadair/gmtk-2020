@@ -7,11 +7,12 @@ public class CameraFollow : MonoBehaviour
     Transform playerTransform;
     float cameraBoundX = 10f;
     float cameraBoundY = 7f;
-    Vector3 cameraStart = new Vector3(0f, 0f, -10f);
+    Vector3 cameraStart;
 
     void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        cameraStart = transform.position;
     }
 
     void LateUpdate()
