@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -34,7 +33,6 @@ public class GameController : MonoBehaviour
         // Set starting abilities
         abilityCounts = new int[] { 2, 2, 2, 2 };
         player.GetComponent<PlayerController>().UpdateAbilities(abilityCounts);
-        player.GetComponent<PlayerController>().Restart();
     }
 
     void Update()

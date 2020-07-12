@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
         // Get Elements
         rb = GetComponent<Rigidbody2D>();
         game = GameObject.FindGameObjectWithTag("GameController");
+        Restart();
     }
 
     private void Update()
