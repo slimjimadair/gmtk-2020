@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     // Components
     Rigidbody2D rb;
+    Animator anim;
 
     // Settings
     public float runSpeed;
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
     // Contexts
     bool isGrounded;
+    bool facingRight = true;
 
     // Ability Limits
     int[] abilityCounts = new int[] { 0, 0, 0, 0 };
@@ -50,6 +52,7 @@ public class PlayerController : MonoBehaviour
     {
         // Get Elements
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         game = GameObject.FindGameObjectWithTag("GameController");
         Restart();
     }
@@ -125,6 +128,15 @@ public class PlayerController : MonoBehaviour
         // Update Velocity
         rb.velocity = new Vector2(hVel, vVel);
 
+        // Set Animation
+        if ((!facingRight && hVel > 0) || (facingRight && hVel <0))
+        {
+            Flip();
+        }
+        anim.SetFloat("Speed", Mathf.Abs(hVel));
+        anim.SetBool("IsJumping", (!isGrounded && vVel > 0));
+        anim.SetBool("IsFalling", (!isGrounded && vVel <= 0));
+
         // Update UI
         int[] uiCounts = new int[] { jumpCount, airJumpCount, sprintCount, dashCount };
         abilityUI.GetComponent<AbilityUI>().UpdateUI(uiCounts);
@@ -160,6 +172,14 @@ public class PlayerController : MonoBehaviour
         // Reset Ability Counts
         SetAbilities();
         abilityUI.GetComponent<AbilityUI>().BuildUI(abilityCounts);
+    }
+
+    void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 Scaler = transform.localScale;
+        Scaler.x *= -1;
+        transform.localScale = Scaler;
     }
 
 }
