@@ -19,7 +19,9 @@ public class PlayerController : MonoBehaviour
     public LayerMask whatIsGround;
 
     public GameObject abilityUI;
+    GameObject game;
 
+    Vector3 playerStart = new Vector3(0f, -2.25f, 0f);
     float deathFloor = -20f;
 
     // Input Trackers
@@ -38,14 +40,17 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
 
     // Ability Limits
-    int sprintCount = 100;
-    int jumpCount = 100;
-    int airJumpCount = 100;
-    int dashCount = 100;
+    int[] abilityCounts = new int[] { 0, 0, 0, 0 };
+    int sprintCount;
+    int jumpCount;
+    int airJumpCount;
+    int dashCount;
 
     private void Start()
     {
+        // Get Elements
         rb = GetComponent<Rigidbody2D>();
+        game = GameObject.FindGameObjectWithTag("GameController");
     }
 
     private void Update()
@@ -122,5 +127,37 @@ public class PlayerController : MonoBehaviour
         // Update UI
         int[] uiCounts = new int[] { jumpCount, airJumpCount, sprintCount, dashCount };
         abilityUI.GetComponent<AbilityUI>().UpdateUI(uiCounts);
+
+        // Check Death
+        if (rb.position.y < deathFloor)
+        {
+            game.GetComponent<GameController>().Restart();
+        }
+    }
+
+    public void UpdateAbilities(int[] newAbilityCounts)
+    {
+        abilityCounts = newAbilityCounts;
+        SetAbilities();
+    }
+
+    void SetAbilities()
+    {
+        // Reset Ability Counts
+        jumpCount = abilityCounts[0];
+        airJumpCount = abilityCounts[1];
+        sprintCount = abilityCounts[2];
+        dashCount = abilityCounts[3];
+    }
+
+    public void Restart()
+    {
+        // Reposition
+        transform.position = playerStart;
+        rb.velocity = Vector2.zero;
+
+        // Reset Ability Counts
+        SetAbilities();
+        abilityUI.GetComponent<AbilityUI>().BuildUI(abilityCounts);
     }
 }

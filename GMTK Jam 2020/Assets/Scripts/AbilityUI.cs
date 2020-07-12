@@ -13,12 +13,6 @@ public class AbilityUI : MonoBehaviour
     // UI Lists
     string[] uiLabels = new string[] { "JUMP", "AIR JUMP", "SPRINT", "DASH" };
 
-    private void Start()
-    {
-        int[] uiCounts = new int[] { 1, 0, 1, 0 };
-        BuildUI(uiCounts);
-    }
-
     public void BuildUI(int[] uiCounts)
     {
         // Clear previous UI

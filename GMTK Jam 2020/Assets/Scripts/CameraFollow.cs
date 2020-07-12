@@ -7,6 +7,7 @@ public class CameraFollow : MonoBehaviour
     Transform playerTransform;
     float cameraBoundX = 10f;
     float cameraBoundY = 7f;
+    Vector3 cameraStart = new Vector3(0f, 0f, -10f);
 
     void Start()
     {
@@ -24,7 +25,7 @@ public class CameraFollow : MonoBehaviour
         } else if (cameraPosition.x < playerTransform.position.x - cameraBoundX) {
             cameraPosition.x = playerTransform.position.x - cameraBoundX;
         }
-        if (cameraPosition.y > playerTransform.position.y + cameraBoundY) {
+        if (cameraPosition.y > playerTransform.position.y + cameraBoundY && playerTransform.position.y + cameraBoundY > 0) {
             cameraPosition.y = playerTransform.position.y + cameraBoundY;
         }
         else if (cameraPosition.y < playerTransform.position.y - cameraBoundY) {
@@ -33,5 +34,10 @@ public class CameraFollow : MonoBehaviour
 
         // Update camera position
         transform.position = cameraPosition;
+    }
+
+    public void Restart()
+    {
+        transform.position = cameraStart;
     }
 }
