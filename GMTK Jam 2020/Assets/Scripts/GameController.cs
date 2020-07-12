@@ -95,10 +95,10 @@ public class GameController : MonoBehaviour
         messageUI.SetActive(false);
     }
 
-    public void Die()
+    public void Die(string message = "", float showTime = 1.0f)
     {
         messageUI.SetActive(true);
-        messageUI.GetComponent<MessageUI>().SetMessage("YOU DIED", "", "", null, "red");
-        Invoke("Restart", 1.0f);
+        messageUI.GetComponent<MessageUI>().SetMessage("YOU DIED", message, "", null, "red");
+        Invoke("Restart", showTime);
     }
 }

@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
     // Contexts
     bool isGrounded;
+    bool isDangerous = false;
     bool facingRight = true;
 
     // Ability Limits
@@ -114,6 +115,7 @@ public class PlayerController : MonoBehaviour
         {
             hVel *= sprintMultiplier;
         }
+        isDangerous = fixedShiftInput;
 
         // Jump - add vertical velocity if on ground
         if (fixedUpInput && isGrounded && jumpCount > 0)
@@ -135,10 +137,12 @@ public class PlayerController : MonoBehaviour
         // Dash - teleport in movement direction
         if (fixedSpaceInput && dashCount > 0)
         {
+            isDangerous = true;
             rb.MovePosition(new Vector2(rb.position.x + (fixedSideInput * dashDistance), rb.position.y));
             fixedSpaceInput = false;
             dashCount -= 1;
             dashAudio.Play();
+            isDangerous = false;
         }
 
         // Update Velocity
@@ -223,6 +227,11 @@ public class PlayerController : MonoBehaviour
         Vector3 Scaler = transform.localScale;
         Scaler.x *= -1;
         transform.localScale = Scaler;
+    }
+
+    public bool IsDangerous()
+    {
+        return isDangerous;
     }
 
 }
