@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
         // Check Death
         if (rb.position.y < deathFloor)
         {
-            game.GetComponent<GameController>().Restart();
+            game.GetComponent<GameController>().Die();
         }
     }
 
@@ -160,4 +160,5 @@ public class PlayerController : MonoBehaviour
         SetAbilities();
         abilityUI.GetComponent<AbilityUI>().BuildUI(abilityCounts);
     }
+
 }

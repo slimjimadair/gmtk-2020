@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -7,13 +8,22 @@ public class GameController : MonoBehaviour
     // Objects
     GameObject player;
     public GameObject abilityUI;
+    public GameObject messageUI;
     GameObject mainCamera;
 
     // Ability Handling
     int[] abilityCounts;
 
-    // Control Variables
-    bool gameIsPaused = false;
+    // UI Lists
+    string[] uiLabels = new string[] { "JUMP", "AIR JUMP", "SPRINT", "DASH" };
+    string[] uiInstructions = new string[]
+    {
+        "PRESS UP TO JUMP",
+        "PRESS UP IN AIR TO JUMP",
+        "HOLD SHIFT TO SPRINT",
+        "PRESS SPACE TO DASH FORWARD",
+    };
+    public Sprite[] uiSpritesLight;
 
     void Start()
     {
@@ -22,7 +32,7 @@ public class GameController : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 
         // Set starting abilities
-        abilityCounts = new int[] { 1, 0, 0, 0 };
+        abilityCounts = new int[] { 2, 2, 2, 2 };
         player.GetComponent<PlayerController>().UpdateAbilities(abilityCounts);
         player.GetComponent<PlayerController>().Restart();
     }
@@ -46,12 +56,22 @@ public class GameController : MonoBehaviour
     {
         abilityCounts[abilityID] += 1;
         player.GetComponent<PlayerController>().UpdateAbilities(abilityCounts);
-        Restart();
+        messageUI.SetActive(true);
+        messageUI.GetComponent<MessageUI>().SetMessage(uiLabels[abilityID], uiInstructions[abilityID], "", uiSpritesLight[abilityID]);
+        Invoke("Restart", 1.0f);
     }
 
     public void Restart()
     {
         player.GetComponent<PlayerController>().Restart();
         mainCamera.GetComponent<CameraFollow>().Restart();
+        messageUI.SetActive(false);
+    }
+
+    public void Die()
+    {
+        messageUI.SetActive(true);
+        messageUI.GetComponent<MessageUI>().SetMessage("YOU DIED", "", "", null, "red");
+        Invoke("Restart", 1.0f);
     }
 }
