@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
         fixedShiftInput = (sprintCount > 0) ? shiftInput : false;
 
         // Get Context
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+        isGrounded = Physics2D.OverlapCapsule(groundCheck.position, new Vector2(groundCheckRadius, 1 + groundCheckRadius), CapsuleDirection2D.Horizontal, 0, whatIsGround);
 
         // Set Base Velocity
         float hVel = fixedSideInput * runSpeed;

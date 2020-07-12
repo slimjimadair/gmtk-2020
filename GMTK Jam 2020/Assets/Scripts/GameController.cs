@@ -80,7 +80,7 @@ public class GameController : MonoBehaviour
             uiComment = uiComments[abilityID][Random.Range(0, uiComments[abilityID].Length)];
         }
         messageUI.GetComponent<MessageUI>().SetMessage(uiLabels[abilityID], uiInstructions[abilityID], uiComment, uiSpritesLight[abilityID]);
-        Invoke("Restart", 1.0f);
+        Invoke("Restart", 2.0f);
     }
 
     public void Restart()
